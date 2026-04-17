@@ -9,13 +9,13 @@ export default function ShowUsers() {
   const [selectedUser, setSelectedUser] = useState(null);
   const [mode, setMode] = useState("list");
   const BACKEND_URL = process.env.BACKEND_URL||"http://localhost:3333";
-  // ================= FETCH USERS =================
+  // FETCH USERS 
   const fetchUsers = async () => {
     try {
       const res = await fetch(`${BACKEND_URL}/users`);
       const data = await res.json();
 
-      // ✅ admin remove
+      // admin remove
       const filteredUsers = (data || []).filter(
         (u) => u.role !== "admin"
       );
@@ -30,7 +30,7 @@ export default function ShowUsers() {
     fetchUsers();
   }, []);
 
-  // ================= DELETE USER =================
+  //  DELETE USER 
   const deleteUser = async (id) => {
     const ok = confirm("Delete this user?");
     if (!ok) return;
@@ -58,7 +58,7 @@ export default function ShowUsers() {
     }
   };
 
-  // ================= LIST =================
+  //  LIST 
   if (mode === "list") {
     return (
       <div className="p-6 bg-[#020617] min-h-screen text-white">
@@ -138,7 +138,7 @@ export default function ShowUsers() {
     );
   }
 
-  // ================= VIEW =================
+  // VIEW 
   return (
     <div className="p-6 bg-[#020617] min-h-screen text-white">
       <h1 className="text-2xl font-bold mb-6">

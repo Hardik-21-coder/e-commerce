@@ -6,10 +6,10 @@ export default function Footer() {
   return (
     <footer className="bg-slate-950 text-white border-t border-slate-800">
 
-      {/* TOP SECTION */}
+      
       <div className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-4 gap-10">
 
-        {/* BRAND */}
+        
         <div>
           <h2 className="text-2xl font-bold text-indigo-500">
             MyShop
@@ -21,7 +21,7 @@ export default function Footer() {
           </p>
         </div>
 
-        {/* QUICK LINKS */}
+        
         <div>
           <h3 className="font-semibold mb-4">Quick Links</h3>
 
@@ -35,7 +35,7 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* CATEGORIES */}
+       
         <div>
           <h3 className="font-semibold mb-4">Categories</h3>
 
@@ -49,7 +49,7 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* SUPPORT */}
+        
         <div>
           <h3 className="font-semibold mb-4">Support</h3>
 
@@ -65,7 +65,7 @@ export default function Footer() {
 
       </div>
 
-      {/* BOTTOM BAR */}
+      
       <div className="border-t border-slate-800">
 
         <div className="max-w-6xl mx-auto px-6 py-5 flex flex-col md:flex-row items-center justify-between gap-3">
@@ -74,7 +74,7 @@ export default function Footer() {
             © {new Date().getFullYear()} MyShop. All rights reserved.
           </p>
 
-          {/* BADGES */}
+         
           <div className="flex gap-2">
 
             <span className="px-3 py-1 text-xs rounded-full bg-slate-900 border border-slate-800">

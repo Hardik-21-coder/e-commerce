@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useSelector } from "react-redux";
-import { Button, Badge } from "@heroui/react";
+import { Badge } from "@heroui/react";
 
 export default function Navbar() {
   const cartCount = useSelector(
@@ -10,53 +10,55 @@ export default function Navbar() {
   );
 
   return (
-    <nav className="sticky top-0 z-50 bg-slate-950 border-b border-slate-800">
+    <nav className="sticky top-0 z-50 backdrop-blur-xl bg-slate-950/70 border-b border-white/10 shadow-xl">
 
-      <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
 
-        {/* LOGO */}
-        <Link href="/" className="text-2xl font-bold text-indigo-500">
-          MyShop
+        
+        <Link
+          href="/"
+          className="text-3xl font-extrabold bg-gradient-to-r from-indigo-400 via-pink-400 to-purple-400 bg-clip-text text-transparent tracking-wide"
+        >
+          ShopNeno
         </Link>
 
-        {/* MENU */}
-        <div className="hidden md:flex gap-6 text-slate-300 text-sm">
+        
+        <div className="hidden md:flex items-center gap-8 text-slate-300 text-sm font-medium">
 
-          <Link href="/" className="hover:text-white">
+          <Link href="/" className="hover:text-white transition duration-300 hover:scale-105">
             Home
           </Link>
 
-          {/* ✅ FIXED PRODUCT ROUTE */}
-          <Link href="/client/product" className="hover:text-white">
+          <Link href="/client/product" className="hover:text-white transition duration-300 hover:scale-105">
             Products
           </Link>
 
-          {/* optional about */}
-          <Link href="/client/about" className="hover:text-white">
+          <Link href="/client/about" className="hover:text-white transition duration-300 hover:scale-105">
             About
           </Link>
 
-          {/* ✅ NEW: FEEDBACK / CONTACT US */}
-          <Link href="/client/feedback" className="hover:text-white">
+          <Link href="/client/feedback" className="hover:text-white transition duration-300 hover:scale-105">
             Contact
           </Link>
 
-          {/* SIGN UP */}
-          <Link href="/client/register" className="rounded-full border border-white/10 bg-indigo-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-400">
+          
+          <Link
+            href="/client/register"
+            className="ml-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 px-5 py-2 text-sm font-semibold text-white shadow-lg transition duration-300 hover:scale-105 hover:shadow-indigo-500/40"
+          >
             Sign Up
           </Link>
-
         </div>
 
-        {/* CART */}
+       
         <Link href="/client/addtocard" className="relative inline-flex items-center">
 
-          <span className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-slate-900 px-4 py-2 text-white transition hover:bg-slate-800">
-            🛒 Cart {cartCount > 0 ? `(${cartCount})` : "(0)"}
+          <span className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-slate-800 to-slate-900 px-5 py-2.5 text-white shadow-lg border border-white/10 transition duration-300 hover:scale-105 hover:shadow-indigo-500/30">
+            🛒  {cartCount > 0 ? `(${cartCount})` : "(0)"}
           </span>
 
           {cartCount > 0 ? (
-            <Badge className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">
+            <Badge className="absolute -top-2 -right-2 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs px-2 py-1 rounded-full shadow-lg">
               {cartCount}
             </Badge>
           ) : null}

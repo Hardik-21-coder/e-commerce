@@ -28,7 +28,7 @@ const RHFFormField = ({
       control={control}
       rules={rules}
       render={({ field, fieldState: { error } }) => {
-        // Props for @heroui/react components (not passed to DOM)
+        
         const componentProps = {
           label,
           placeholder: placeholder || `Enter ${label?.toLowerCase() || 'value'}`,
@@ -42,11 +42,11 @@ const RHFFormField = ({
           autoFocus,
         };
 
-        // Handle validation separately
+        // Handle validation 
         const isInvalid = !!error;
         const errorMessage = error?.message;
 
-        // Modern SaaS styling classes
+        
         const baseInputClasses = `
           w-full transition-all duration-300 ease-in-out
           bg-white dark:bg-slate-800
@@ -103,7 +103,7 @@ const RHFFormField = ({
                     }}
                     type={type}
                     {...componentProps}
-                    label={null} // Remove duplicate label since we handle it above
+                    label={null} 
                     className={baseInputClasses}
                   />
                   {isInvalid && (
@@ -137,7 +137,7 @@ const RHFFormField = ({
                   <TextArea
                     {...field}
                     {...componentProps}
-                    label={null} // Remove duplicate label since we handle it above
+                    label={null} 
                     className={`${baseInputClasses} min-h-[120px] resize-none`}
                   />
                   {isInvalid && (
@@ -170,7 +170,7 @@ const RHFFormField = ({
                 <div className="relative">
                   <Select
                     {...field}
-                    label={null} // Remove duplicate label since we handle it above
+                    label={null} 
                     placeholder={placeholder || `Select ${label?.toLowerCase() || 'option'}`}
                     variant={variant}
                     radius={radius}
@@ -218,7 +218,7 @@ const RHFFormField = ({
                     {...field}
                     type={type}
                     {...componentProps}
-                    label={null} // Remove duplicate label since we handle it above
+                    label={null} 
                     className={baseInputClasses}
                   />
                   {isInvalid && (

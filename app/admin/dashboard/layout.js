@@ -37,9 +37,6 @@ export default function DashboardLayout({ children }) {
             <SidebarItem open={open} icon={<Users />} label="Users" active={isActive("/admin/dashboard/users")} onClick={() => router.push("/admin/dashboard/users")} />
             <SidebarItem open={open} icon={<Package />} label="Add Product" active={isActive("/admin/dashboard/add")} onClick={() => router.push("/admin/dashboard/add")} />
             <SidebarItem open={open} icon={<Package />} label="Show Products" active={isActive("/admin/dashboard/show")} onClick={() => router.push("/admin/dashboard/show")} />
-            {/* <SidebarItem open={open} icon={<ShoppingCart />} label="Orders" active={isActive("/admin/dashboard/orders")} onClick={() => router.push("/admin/dashboard/orders")} />
-            <SidebarItem open={open} icon={<BarChart />} label="Analytics" active={isActive("/admin/dashboard/analytics")} onClick={() => router.push("/admin/dashboard/analytics")} />
-            <SidebarItem open={open} icon={<Settings />} label="Settings" active={isActive("/admin/dashboard/settings")} onClick={() => router.push("/admin/dashboard/settings")} /> */}
           </div>
         </div>
 
@@ -69,7 +66,7 @@ export default function DashboardLayout({ children }) {
   );
 }
 
-/* ================= SIDEBAR ================= */
+/*  SIDEBAR  */
 
 function SidebarItem({ icon, label, onClick, open, active }) {
   return (

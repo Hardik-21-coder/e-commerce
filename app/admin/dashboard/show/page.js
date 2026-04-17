@@ -1,6 +1,3 @@
-
-
-
 "use client";
 
 import ShowProducts from "@/app/admin/dashboard/show/showproducts";

@@ -1,5 +1,3 @@
-
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -64,7 +62,7 @@ export default function ShowProducts() {
     }
   };
 
-  // ================= IMAGE (FINAL SIMPLE LOGIC) =================
+  //  IMAGE (FINAL SIMPLE LOGIC) 
   const getImage = (p) => {
     if (!p?.images) return "/no-image.png";
 
@@ -76,17 +74,16 @@ export default function ShowProducts() {
       }
     } catch (e) {}
 
-    // already full URL
+    
     if (img?.startsWith("http")) return img;
-    // console.log("Raw image data:", img);
+    
 
     let r = img ? `${BACKEND_URL}/uploads/${img}` : "/no-image.png";
-    // backend file path
-    // console.log("Processed image URL:", r);
+    
     return r;
   };
 
-  // ================= LIST =================
+  //  LIST 
   if (mode === "list") {
     return (
       <div className="p-6 bg-[#020617] min-h-screen text-white">
@@ -179,7 +176,7 @@ export default function ShowProducts() {
     );
   }
 
-  // ================= VIEW / EDIT =================
+  //VIEW / EDIT 
   return (
     <div className="p-6 bg-[#020617] min-h-screen text-white">
       <h1 className="text-2xl font-bold mb-6 capitalize">

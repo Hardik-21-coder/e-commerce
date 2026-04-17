@@ -10,7 +10,7 @@ const saveCartState = (cartState) => {
   try {
     window.localStorage.setItem("cartState", JSON.stringify(cartState));
   } catch {
-    // ignore storage write failures
+    
   }
 };
 

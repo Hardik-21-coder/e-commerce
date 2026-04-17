@@ -1,6 +1,3 @@
-
-
-
 "use client";
 
 import { useState, useCallback, useEffect } from "react";
@@ -14,7 +11,7 @@ import {
 } from "lucide-react";
 import { Button } from "@heroui/react";
 
-// --- Validation ---
+// Validation 
 const productSchema = z.object({
   name: z.string().min(3, "Min 3 characters"),
   price: z.coerce.number().min(1, "Price > 0"),
@@ -23,7 +20,7 @@ const productSchema = z.object({
   description: z.string().min(5),
 });
 
-// --- Input Field ---
+//  Input Field 
 const RHFFormField = ({ control, name, label, component, type = "text" }) => (
   <div className="flex flex-col gap-2">
     <label className="text-sm text-slate-300">{label}</label>
@@ -46,7 +43,7 @@ const RHFFormField = ({ control, name, label, component, type = "text" }) => (
   </div>
 );
 
-// --- Dropdown ---
+// Dropdown
 const RHFDropDown = ({ control, name, label, options }) => (
   <div className="flex flex-col gap-2">
     <label className="text-sm text-slate-300">{label}</label>
@@ -132,9 +129,9 @@ export default function AddProductPage() {
       const formData = new FormData();
 
       formData.append("name", data.name);
-      formData.append("price", String(data.price)); // FIX
+      formData.append("price", String(data.price)); 
       formData.append("category", data.category);
-      formData.append("stock", String(data.stock)); // FIX
+      formData.append("stock", String(data.stock)); 
       formData.append("description", data.description);
 
       images.forEach((img) => {

@@ -1,5 +1,3 @@
-
-
 "use client";
 
 import { useState } from "react";
@@ -21,7 +19,7 @@ export default function RegisterPage() {
 
   const [loading, setLoading] = useState(false);
 
-  // 🔥 COMMON INPUT STYLE (Hero UI Feel)
+  // COMMON INPUT STYLE (Hero UI Feel)
   const inputStyle =
     "w-full pl-10 pr-10 py-3 rounded-xl bg-white/10 border border-white/10 text-white placeholder-gray-400 focus:border-green-400 focus:ring-2 focus:ring-green-400 outline-none transition duration-300";
 
@@ -88,7 +86,7 @@ export default function RegisterPage() {
         </h1>
 
         <p className="text-center text-gray-400 text-sm mt-2">
-          Secure Banking Starts Here
+          Secure Shopping Starts Here
         </p>
 
         <div className="mt-6 space-y-4">

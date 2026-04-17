@@ -1,8 +1,3 @@
-
-
-
-
-
 "use client";
 
 import { useState } from "react";
@@ -24,7 +19,7 @@ export default function AdminLogin() {
         return;
       }
 
-      // ✅ FIXED API URL
+      //  FIXED API URL
       const res = await fetch("http://localhost:3333/auth/admin/login", {
         method: "POST",
         headers: {
@@ -34,10 +29,10 @@ export default function AdminLogin() {
       });
 
       const data = await res.json();
-      console.log(data); // 🔥 debug
+      console.log(data); //  debug
 
       if (res.ok) {
-        // ✅ backend already admin check kare che
+        //  backend already admin check kare che
         localStorage.setItem("admin", JSON.stringify(data.user));
         alert("Admin Login Success 🔐");
         router.push("/admin/dashboard");

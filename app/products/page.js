@@ -3,7 +3,8 @@
 
 import { useEffect, useState } from "react";
 import { Chip } from "@heroui/react";
-import { ProductCard } from "../client/home/ProductCard";
+import { ProductCard } from "@/app/components/ProductCard";
+//import { ProductCard } from "../client/home/ProductCard";
 import { BACKEND_URL, UPLOADS_URL } from "@/lib/backend";
 
 export default function ProductPage() {

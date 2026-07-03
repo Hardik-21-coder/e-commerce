@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Card, Button } from "@heroui/react";
 import { useRouter } from "next/navigation";
 import { Mail, Lock, Eye, EyeOff, Shield } from "lucide-react";
+import { BACKEND_URL } from "@/lib/backend";
 
 export default function AdminLogin() {
   const router = useRouter();
@@ -20,7 +21,7 @@ export default function AdminLogin() {
       }
 
       //  FIXED API URL
-      const res = await fetch("http://localhost:3333/auth/admin/login", {
+      const res = await fetch(`${BACKEND_URL}/auth/admin/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

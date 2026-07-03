@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { useForm, Controller } from "react-hook-form";
+import { BACKEND_URL } from "@/lib/backend";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -138,7 +139,7 @@ export default function AddProductPage() {
         formData.append("images", img.file);
       });
 
-      const res = await fetch("http://localhost:3333/products", {
+      const res = await fetch(`${BACKEND_URL}/products`, {
         method: "POST",
         body: formData,
       });

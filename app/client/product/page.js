@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Card, Button } from "@heroui/react";
 import { addToCart } from "@/store/cartSlice";
+import { BACKEND_URL } from "@/lib/backend";
 
 export default function ProductsPage() {
   const dispatch = useDispatch();
@@ -28,30 +29,31 @@ export default function ProductsPage() {
     );
   };
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const res = await fetch("http://localhost:3333/products");
-        const data = await res.json();
+useEffect(() => {
+  const fetchProducts = async () => {
+    try {
+      setLoading(true);
 
-        const list = Array.isArray(data)
-          ? data
-          : Array.isArray(data.products)
-          ? data.products
-          : data
-          ? [data]
-          : [];
+      const res = await fetch(`${BACKEND_URL}/products`);
+      const json = await res.json();
 
-        setProducts(list);
-      } catch (err) {
-        console.log(err);
-      } finally {
-        setLoading(false);
-      }
-    };
+      console.log("API Response:", json);
 
-    fetchProducts();
-  }, []);
+      // ✅ SAFE FIX
+      const productsList = json?.products || [];
+
+      setProducts(productsList);
+
+    } catch (err) {
+      console.log("FETCH ERROR:", err);
+      setProducts([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchProducts();
+}, []);
 
   const openModal = (item) => {
     setSelectedProduct(item);
@@ -78,11 +80,6 @@ export default function ProductsPage() {
       <div className="absolute w-[500px] h-[500px] bg-green-500/30 rounded-full blur-3xl animate-pulse top-[-100px] left-[-100px]" />
       <div className="absolute w-[400px] h-[400px] bg-blue-500/30 rounded-full blur-3xl animate-pulse bottom-[-100px] right-[-100px]" />
 
-      <div className="absolute w-32 h-32 border border-white/10 rounded-xl rotate-12 top-20 left-20" />
-      <div className="absolute w-24 h-24 border border-white/10 rounded-full bottom-20 right-20" />
-      <div className="absolute w-40 h-40 border border-white/10 rounded-xl rotate-45 bottom-10 left-10" />
-
-      {/* GRID */}
       <div className="relative z-10 max-w-7xl mx-auto px-6 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
 
         {products.map((item) => (
@@ -91,18 +88,25 @@ export default function ProductsPage() {
             className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden"
           >
 
-            {/* IMAGE  */}
-            <div className="h-48 flex items-center justify-center bg-white/5">
-              <img
-                src={
-                  item.images?.length
-                    ? `http://localhost:3333/uploads/${item.images[0]}`
-                    : "https://via.placeholder.com/300"
-                }
-                className="max-h-full max-w-full object-contain"
-                alt={item.name}
-              />
-            </div>
+            {/* IMAGE */}
+            {/* IMAGE */}
+<div className="h-48 flex items-center justify-center bg-white/5">
+  <img
+    src={
+      item.images?.length
+        ? item.images[0].startsWith("http")
+          ? item.images[0] // Cloudinary URL
+          : `${BACKEND_URL}/uploads/${item.images[0]}` // Old local images
+        : "/no-image.png"
+    }
+    alt={item.name}
+    className="max-h-full max-w-full object-contain"
+    onError={(e) => {
+      console.log("Image failed:", e.currentTarget.src);
+      e.currentTarget.src = "/no-image.png";
+    }}
+  />
+</div>
 
             {/* CONTENT */}
             <div className="p-4 space-y-2">
@@ -153,7 +157,7 @@ export default function ProductsPage() {
 
               <div className="h-[350px] flex items-center justify-center bg-white/5 rounded-xl">
                 <img
-                  src={`http://localhost:3333/uploads/${selectedProduct.images[currentImg]}`}
+                  src={selectedProduct.images[currentImg]}   // ✅ FIX
                   className="max-h-full max-w-full object-contain"
                 />
               </div>
@@ -165,9 +169,11 @@ export default function ProductsPage() {
                   <img
                     key={i}
                     onClick={() => setCurrentImg(i)}
-                    src={`http://localhost:3333/uploads/${img}`}
+                    src={img}   // ✅ FIX
                     className={`h-16 w-16 object-contain bg-white/5 rounded-md cursor-pointer border ${
-                      currentImg === i ? "border-blue-500" : "border-transparent"
+                      currentImg === i
+                        ? "border-blue-500"
+                        : "border-transparent"
                     }`}
                   />
                 ))}

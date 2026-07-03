@@ -3,13 +3,14 @@
 import { useEffect, useState } from "react";
 import { Chip } from "@heroui/react";
 import { ProductCard } from "../home/ProductCard";
+import { BACKEND_URL, UPLOADS_URL } from "@/lib/backend";
 
 export default function ProductsPage() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:3333/products")
+    fetch(`${BACKEND_URL}/products`)
       .then((res) => res.json())
       .then((data) => {
         setProducts(data.products || []);
@@ -49,7 +50,7 @@ export default function ProductsPage() {
               tag={product.category}
               imageSrc={
                 product.images?.length
-                  ? `http://localhost:3333/uploads/${product.images[0]}`
+                  ? `${UPLOADS_URL}/${product.images[0]}`
                   : null
               }
               imageAlt={product.description || product.name}

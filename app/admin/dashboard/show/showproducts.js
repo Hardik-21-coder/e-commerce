@@ -2,22 +2,23 @@
 
 import { useEffect, useState } from "react";
 import { MoreVertical, Eye, Pencil, Trash2 } from "lucide-react";
+import { BACKEND_URL, UPLOADS_URL } from "@/lib/backend";
+
+const DEFAULT_IMAGE = "https://via.placeholder.com/150?text=No+Image";
 
 export default function ShowProducts() {
   const [products, setProducts] = useState([]);
   const [openMenu, setOpenMenu] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [mode, setMode] = useState("list"); // list | view | edit
-  const BACKEND_URL = process.env.BACKEND_URL||"http://localhost:3333";
-  console.log(BACKEND_URL) 
-  // FETCH PRODUCTS
+  const [mode, setMode] = useState("list");
+
   const fetchProducts = async () => {
     try {
       const res = await fetch(`${BACKEND_URL}/products`);
       const data = await res.json();
       setProducts(data.products || []);
     } catch (err) {
-      console.log(err);
+      console.log("Fetch products error:", err);
     }
   };
 
@@ -25,7 +26,6 @@ export default function ShowProducts() {
     fetchProducts();
   }, []);
 
-  // DELETE PRODUCT
   const deleteProduct = async (id) => {
     const ok = confirm("Are you sure you want to delete this product?");
     if (!ok) return;
@@ -34,15 +34,13 @@ export default function ShowProducts() {
       await fetch(`${BACKEND_URL}/products/${id}`, {
         method: "DELETE",
       });
-
       fetchProducts();
       setOpenMenu(null);
     } catch (err) {
-      console.log(err);
+      console.log("Delete error:", err);
     }
   };
 
-  // UPDATE PRODUCT
   const updateProduct = async () => {
     try {
       await fetch(`${BACKEND_URL}/products/${selectedProduct.id}`, {
@@ -58,32 +56,38 @@ export default function ShowProducts() {
       setSelectedProduct(null);
       fetchProducts();
     } catch (err) {
-      console.log(err);
+      console.log("Update error:", err);
     }
   };
 
-  //  IMAGE (FINAL SIMPLE LOGIC) 
-  const getImage = (p) => {
-    if (!p?.images) return "/no-image.png";
+  const getImage = (product) => {
+    const images = Array.isArray(product?.images) ? product.images : [];
+    const firstImage = images[0];
 
-    let img = Array.isArray(p.images) ? p.images[0] : p.images;
-    // console.log("Raw image data:", img);
-    try {
-      if (typeof img === "string" && img.startsWith("[")) {
-        img = JSON.parse(img)[0];
-      }
-    } catch (e) {}
+    if (!firstImage || typeof firstImage !== "string") {
+      return DEFAULT_IMAGE;
+    }
 
-    
-    if (img?.startsWith("http")) return img;
-    
+    const img = firstImage.trim();
+    if (!img || img === "null" || img === "undefined") {
+      return DEFAULT_IMAGE;
+    }
 
-    let r = img ? `${BACKEND_URL}/uploads/${img}` : "/no-image.png";
-    
-    return r;
+    if (img.startsWith("http://") || img.startsWith("https://")) {
+      return img;
+    }
+
+    if (img.startsWith("/uploads/")) {
+      return `${BACKEND_URL}${img}`;
+    }
+
+    if (img.startsWith("uploads/")) {
+      return `${BACKEND_URL}/${img}`;
+    }
+
+    return `${UPLOADS_URL}/${img}`;
   };
 
-  //  LIST 
   if (mode === "list") {
     return (
       <div className="p-6 bg-[#020617] min-h-screen text-white">
@@ -95,12 +99,15 @@ export default function ShowProducts() {
               key={p.id}
               className="flex items-center justify-between p-4 border-b border-white/10 hover:bg-white/5 transition"
             >
-              {/* LEFT */}
               <div className="flex items-center gap-4">
                 <img
                   src={getImage(p)}
+                  alt={p.name || "product"}
                   className="w-12 h-12 rounded-full object-cover border border-white/10"
-                  onError={(e) => (e.target.src = "")}
+                  onError={(e) => {
+                    console.log("Image failed:", getImage(p));
+                    e.currentTarget.src = DEFAULT_IMAGE;
+                  }}
                 />
 
                 <div>
@@ -111,7 +118,6 @@ export default function ShowProducts() {
                 </div>
               </div>
 
-              {/* RIGHT */}
               <div className="flex items-center gap-6 relative">
                 <span className="text-sm text-purple-400 capitalize">
                   {p.category}
@@ -119,9 +125,7 @@ export default function ShowProducts() {
 
                 <div className="relative">
                   <button
-                    onClick={() =>
-                      setOpenMenu(openMenu === i ? null : i)
-                    }
+                    onClick={() => setOpenMenu(openMenu === i ? null : i)}
                     className="p-2 rounded-full hover:bg-white/10"
                   >
                     <MoreVertical size={18} />
@@ -129,7 +133,6 @@ export default function ShowProducts() {
 
                   {openMenu === i && (
                     <div className="absolute right-0 mt-2 w-40 bg-white text-black rounded-xl shadow-lg overflow-hidden z-50">
-
                       <button
                         onClick={() => {
                           setSelectedProduct(p);
@@ -158,7 +161,6 @@ export default function ShowProducts() {
                       >
                         <Trash2 size={16} /> Delete
                       </button>
-
                     </div>
                   )}
                 </div>
@@ -176,20 +178,19 @@ export default function ShowProducts() {
     );
   }
 
-  //VIEW / EDIT 
   return (
     <div className="p-6 bg-[#020617] min-h-screen text-white">
-      <h1 className="text-2xl font-bold mb-6 capitalize">
-        {mode} Product
-      </h1>
+      <h1 className="text-2xl font-bold mb-6 capitalize">{mode} Product</h1>
 
       {selectedProduct && (
         <div className="bg-white/5 p-6 rounded-xl space-y-4">
-
           <img
             src={getImage(selectedProduct)}
+            alt={selectedProduct.name || "product"}
             className="w-24 h-24 rounded-full object-cover border border-white/10"
-            onError={(e) => (e.target.src = "")}
+            onError={(e) => {
+              e.currentTarget.src = DEFAULT_IMAGE;
+            }}
           />
 
           <input

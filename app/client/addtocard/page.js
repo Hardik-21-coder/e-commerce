@@ -2,6 +2,7 @@
 
 import { useSelector, useDispatch } from "react-redux";
 import { removeFromCart, clearCart } from "@/store/cartSlice";
+import { UPLOADS_URL } from "@/lib/backend";
 
 export default function CartPage() {
   const dispatch = useDispatch();
@@ -43,13 +44,17 @@ export default function CartPage() {
 
                 {/* IMAGE */}
                 <img
-                  src={
-                    item.images?.length
-                      ? `http://localhost:3333/uploads/${item.images[0]}`
-                      : "https://via.placeholder.com/100"
-                  }
-                  className="w-20 h-20 object-contain bg-black/20 rounded-lg"
-                />
+  src={
+    item.images?.length
+      ? item.images[0]
+      : "/no-image.png"
+  }
+  className="w-20 h-20 object-contain bg-black/20 rounded-lg"
+  alt={item.name}
+  onError={(e) => {
+    e.currentTarget.src = "/no-image.png";
+  }}
+/>
 
                 {/* INFO */}
                 <div className="flex-1">

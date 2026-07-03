@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/store/cartSlice";
+import { BACKEND_URL, UPLOADS_URL } from "@/lib/backend";
 
 export default function HomePage() {
   const dispatch = useDispatch();
@@ -29,7 +30,7 @@ export default function HomePage() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch("http://localhost:3333/products");
+        const res = await fetch(`${BACKEND_URL}/products`);
         const data = await res.json();
 
         const list = Array.isArray(data)
@@ -147,11 +148,11 @@ export default function HomePage() {
             >
 
               <img
-                src={
-                  item.images?.length
-                    ? `http://localhost:3333/uploads/${item.images[0]}`
-                    : "https://via.placeholder.com/300"
-                }
+                 src={
+    item.images?.length
+      ? item.images[0]
+      : "/no-image.png"
+  }
                 className="h-40 w-full object-contain bg-slate-950"
               />
 

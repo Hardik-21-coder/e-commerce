@@ -2,13 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { MoreVertical, Eye, Trash2 } from "lucide-react";
+import { BACKEND_URL } from "@/lib/backend";
 
 export default function ShowUsers() {
   const [users, setUsers] = useState([]);
   const [openMenu, setOpenMenu] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
   const [mode, setMode] = useState("list");
-  const BACKEND_URL = process.env.BACKEND_URL||"http://localhost:3333";
   // FETCH USERS 
   const fetchUsers = async () => {
     try {

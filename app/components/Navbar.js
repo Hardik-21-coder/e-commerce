@@ -3,18 +3,37 @@
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import { Badge } from "@heroui/react";
+import { useEffect, useState } from "react";
 
 export default function Navbar() {
+  const [mounted, setMounted] = useState(false);
+  const [displayCartCount, setDisplayCartCount] = useState(0);
+
   const cartCount = useSelector(
     (state) => state?.cart?.totalQuantity ?? 0
   );
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (mounted) {
+      setDisplayCartCount(cartCount);
+    }
+  }, [mounted, cartCount]);
+
+  const countText = mounted
+    ? displayCartCount > 0
+      ? `(${displayCartCount})`
+      : "(0)"
+    : "(0)";
+
+  const showBadge = mounted && displayCartCount > 0;
+
   return (
     <nav className="sticky top-0 z-50 backdrop-blur-xl bg-slate-950/70 border-b border-white/10 shadow-xl">
-
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-
-        
         <Link
           href="/"
           className="text-3xl font-extrabold bg-gradient-to-r from-indigo-400 via-pink-400 to-purple-400 bg-clip-text text-transparent tracking-wide"
@@ -22,9 +41,7 @@ export default function Navbar() {
           ShopNeno
         </Link>
 
-        
         <div className="hidden md:flex items-center gap-8 text-slate-300 text-sm font-medium">
-
           <Link href="/" className="hover:text-white transition duration-300 hover:scale-105">
             Home
           </Link>
@@ -41,7 +58,6 @@ export default function Navbar() {
             Contact
           </Link>
 
-          
           <Link
             href="/client/register"
             className="ml-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 px-5 py-2 text-sm font-semibold text-white shadow-lg transition duration-300 hover:scale-105 hover:shadow-indigo-500/40"
@@ -50,21 +66,17 @@ export default function Navbar() {
           </Link>
         </div>
 
-       
         <Link href="/client/addtocard" className="relative inline-flex items-center">
-
           <span className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-slate-800 to-slate-900 px-5 py-2.5 text-white shadow-lg border border-white/10 transition duration-300 hover:scale-105 hover:shadow-indigo-500/30">
-            🛒  {cartCount > 0 ? `(${cartCount})` : "(0)"}
+            🛒 {countText}
           </span>
 
-          {cartCount > 0 ? (
+          {showBadge ? (
             <Badge className="absolute -top-2 -right-2 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs px-2 py-1 rounded-full shadow-lg">
-              {cartCount}
+              {displayCartCount}
             </Badge>
           ) : null}
-
         </Link>
-
       </div>
     </nav>
   );

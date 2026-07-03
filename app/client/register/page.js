@@ -5,6 +5,7 @@ import { Button } from "@heroui/react";
 import { useRouter } from "next/navigation";
 import { Mail, Lock, Eye, EyeOff, User } from "lucide-react";
 import { signIn } from "next-auth/react";
+import { BACKEND_URL } from "@/lib/backend";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -43,7 +44,7 @@ export default function RegisterPage() {
 
       setLoading(true);
 
-      const res = await fetch("http://localhost:3333/auth/register", {
+      const res = await fetch(`${BACKEND_URL}/auth/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
